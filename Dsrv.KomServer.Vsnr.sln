@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Dsrv.KomServer.Vsnr", "src\Dsrv.KomServer.Vsnr\Dsrv.KomServer.Vsnr.xproj", "{E79EB457-2580-4876-A861-4C2F034E269D}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Dsrv.KomServer.Vsnr.Tests", "src\Dsrv.KomServer.Vsnr.Tests\Dsrv.KomServer.Vsnr.Tests.xproj", "{A33CC3A2-7004-44E0-A0CE-EB323C5A8CEB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,11 +24,16 @@ Global
 		{E79EB457-2580-4876-A861-4C2F034E269D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E79EB457-2580-4876-A861-4C2F034E269D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E79EB457-2580-4876-A861-4C2F034E269D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A33CC3A2-7004-44E0-A0CE-EB323C5A8CEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A33CC3A2-7004-44E0-A0CE-EB323C5A8CEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A33CC3A2-7004-44E0-A0CE-EB323C5A8CEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A33CC3A2-7004-44E0-A0CE-EB323C5A8CEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E79EB457-2580-4876-A861-4C2F034E269D} = {146A79A4-3B15-4BE9-81E5-76181A43867B}
+		{A33CC3A2-7004-44E0-A0CE-EB323C5A8CEB} = {146A79A4-3B15-4BE9-81E5-76181A43867B}
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,38 @@
+{
+  "version": "1.0.0-*",
+  "testRunner": "xunit",
+  "userSecretsId": "{A1E0C508-6636-4E8B-9EDA-1F6A9F78EB65}",
+
+  "dependencies": {
+    "dotnet-test-xunit": "2.2.0-preview2-build1029",
+    "Dsrv.KomServer.Vsnr": {
+      "target": "project"
+    },
+    "Microsoft.Extensions.Configuration.UserSecrets": "1.0.0",
+    "NETStandard.Library": "1.6.0",
+    "xunit": "2.2.0-beta2-build3300",
+    "Autofac": "4.1.0",
+    "Dataline.ExtraStandard.DrvKomServer.Validation.Extra14.Dsv": "0.4.5",
+    "Dsrv.Kernpruefung.Deuev-1.8": "1.8.0.7",
+    "Itsg.Ostc.Certificates": "0.1.10",
+    "Microsoft.Extensions.Configuration.Binder": "1.0.0"
+  },
+
+  "tools": {
+    "Microsoft.Extensions.SecretManager.Tools": "1.0.0-preview2-final"
+  },
+
+  "buildOptions": {
+    "copyToOutput": [
+      "test-data.json"
+    ]
+  },
+
+  "frameworks": {
+    "net46": {
+      "frameworkAssemblies": {
+        "System.Net.Http.WebRequest": ""
+      }
+    }
+  }
+}
