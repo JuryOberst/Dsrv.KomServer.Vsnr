@@ -30,6 +30,9 @@ using ExtraDataType = ExtraStandard.DrvKomServer.Extra14.Dsv.ExtraDataType;
 
 namespace Dsrv.KomServer.Vsnr
 {
+    /// <summary>
+    /// Client für die Kommunikation mit dem DSRV-Kommunikationsserver
+    /// </summary>
     public class RequestClient : IDisposable
     {
         private static readonly Lazy<StreamFactory> _streamFactory = new Lazy<StreamFactory>(() =>
@@ -56,6 +59,16 @@ namespace Dsrv.KomServer.Vsnr
 
         private readonly Lazy<HttpClient> _httpClient;
 
+        /// <summary>
+        /// Initialisiert eine neue Instanz der <see cref="RequestClient"/> Klasse.
+        /// </summary>
+        /// <param name="sender">Informationen über den Absender</param>
+        /// <param name="company">Informationen über die Firma, die die Daten abfragt</param>
+        /// <param name="isTest">Soll das Test-System verwendet werden?</param>
+        /// <param name="encryptionHandler">Das zu verwendende Verschlüsselungsverfahren</param>
+        /// <param name="validatorFactory">Der zu verwendende eXTra-Verfahren-Validator</param>
+        /// <param name="messageValidator">Der zu verwendende Prüfer für die DSVV-Meldungen</param>
+        /// <param name="httpClientFactory">Eine Factory über die ein <see cref="HttpClient"/> erstellt werden kann</param>
         public RequestClient(AbsenderOnlineversand sender, Firma company, bool isTest, IExtraEncryptionHandler encryptionHandler, IDrvDsvExtra14ValidatorFactory validatorFactory, IRequestMessageValidator messageValidator, IHttpClientFactory httpClientFactory)
         {
             _encryptionHandler = encryptionHandler;
@@ -69,6 +82,13 @@ namespace Dsrv.KomServer.Vsnr
 
         internal StreamFactory StreamFactory => _streamFactory.Value;
 
+        /// <summary>
+        /// Führt einen Versand der Versicherungsnummernabfrage-Daten aus
+        /// </summary>
+        /// <param name="ct">Ein <see cref="CancellationToken"/> über das die Abfrage abgebrochen werden kann</param>
+        /// <param name="fileNumber">Die Dateinummer die für die Abfrage zu verwenden ist</param>
+        /// <param name="persons">Die Mitarbeiter die abgefragt werden</param>
+        /// <returns>Die eXTra-Rückmeldung der Anfrage</returns>
         public async Task<TransportResponseType> ExecuteSend(CancellationToken ct, int fileNumber, IEnumerable<Person> persons)
         {
             var requestTimestamp = DateTime.Now;
@@ -82,6 +102,12 @@ namespace Dsrv.KomServer.Vsnr
             return response;
         }
 
+        /// <summary>
+        /// Fragt die Ergebnisse der Versicherungsnummernabfrage ab
+        /// </summary>
+        /// <param name="ct">Ein <see cref="CancellationToken"/> über das die Abfrage abgebrochen werden kann</param>
+        /// <param name="lastResponseId">Die ID der Antwort von <see cref="ExecuteSend(CancellationToken, int, IEnumerable{Person})"/> minus 1, da wir hier nur auf &gt; <paramref name="lastResponseId"/> abfragen können</param>
+        /// <returns>Die eXTra-Rückmeldung der Anfrage</returns>
         public async Task<TransportResponseType> ExecuteQuery(CancellationToken ct, string lastResponseId)
         {
             var requestId = Guid.NewGuid().ToString("N");
@@ -92,6 +118,12 @@ namespace Dsrv.KomServer.Vsnr
             return response;
         }
 
+        /// <summary>
+        /// Quittiert die Ergebnisse der Versicherungsnummernabfrage
+        /// </summary>
+        /// <param name="ct">Ein <see cref="CancellationToken"/> über das die Abfrage abgebrochen werden kann</param>
+        /// <param name="responseIds">Die IDs der Antworten von <see cref="ExecuteQuery(CancellationToken, string)"/></param>
+        /// <returns>Die eXTra-Rückmeldung der Quittierung</returns>
         public async Task<TransportResponseType> ExecuteAcknowledge(CancellationToken ct, params string[] responseIds)
         {
             var requestId = Guid.NewGuid().ToString("N");
@@ -102,6 +134,11 @@ namespace Dsrv.KomServer.Vsnr
             return response;
         }
 
+        /// <summary>
+        /// Entschlüsselung der Paket-Daten, die von <see cref="ExecuteQuery(CancellationToken, string)"/> zurückgeliefert werden
+        /// </summary>
+        /// <param name="response">Die Rückmeldung von <see cref="ExecuteQuery(CancellationToken, string)"/></param>
+        /// <returns>Die in <paramref name="response"/> gefundenen eXTra-Pakete</returns>
         public IReadOnlyCollection<PackageInfo> DecryptPackages(TransportResponseType response)
         {
             return DecodePackages(response.TransportBody?.Items?.Cast<PackageResponseType>());
@@ -619,6 +656,10 @@ namespace Dsrv.KomServer.Vsnr
         #region IDisposable Support
         private bool _disposedValue; // Dient zur Erkennung redundanter Aufrufe.
 
+        /// <summary>
+        /// Freigabe der Ressourcen nach dem Dispose-Muster
+        /// </summary>
+        /// <param name="disposing">Wirklich freigeben?</param>
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposedValue)
@@ -633,6 +674,9 @@ namespace Dsrv.KomServer.Vsnr
             }
         }
 
+        /// <summary>
+        /// Freigabe der Ressourcen nach dem Dispose-Muster
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);

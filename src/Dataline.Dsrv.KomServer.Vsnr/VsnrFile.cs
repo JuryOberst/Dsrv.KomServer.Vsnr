@@ -8,6 +8,9 @@ using SocialInsurance.Germany.Messages.Pocos;
 
 namespace Dsrv.KomServer.Vsnr
 {
+    /// <summary>
+    /// Die Datei für die Versicherungsnummernabfrage
+    /// </summary>
     public class VsnrFile
     {
         private VsnrFile(VOSZ vorlaufDsrv, VOSZ vorlaufSender, IReadOnlyList<DSVV01> dsvv, NCSZ nachlaufSender, NCSZ nachlaufDsrv)
@@ -24,15 +27,37 @@ namespace Dsrv.KomServer.Vsnr
                     .ToList();
         }
 
+        /// <summary>
+        /// Holt den Vorlaufsatz von der DSRV
+        /// </summary>
         public VOSZ VorlaufDsrv { get; }
+
+        /// <summary>
+        /// Holt den ursprünglichen Vorlaufsatz (vom ursprünglichen Absender)
+        /// </summary>
         public VOSZ VorlaufSender { get; }
+
+        /// <summary>
+        /// Die Datensätze für die Versicherungsnummernabfrage
+        /// </summary>
         public IReadOnlyList<DSVV01> DSVV { get; }
+
+        /// <summary>
+        /// Holt den ursprünglichen Nachlaufsatz (vom ursprünglichen Absender)
+        /// </summary>
         public NCSZ NachlaufSender { get; }
+
+        /// <summary>
+        /// Holt den Nachlaufsatz von der DSRV
+        /// </summary>
         public NCSZ NachlaufDsrv { get; }
 
+        /// <summary>
+        /// Holt alle Datensätze die in der Rückmeldung vorhanden waren
+        /// </summary>
         public IReadOnlyList<IDatensatz> Datensaetze { get; }
 
-        public static VsnrFile Load(StreamFactory factory, TextReader file)
+        internal static VsnrFile Load(StreamFactory factory, TextReader file)
         {
             var reader = factory.CreateReader("dsvv-deuev-v01", file);
             var vorlaufDsrv = (VOSZ)reader.Read();
