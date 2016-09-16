@@ -8,11 +8,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BCAC145A-0EB0-4357-8ECE-7F4DBEFFB228}"
 	ProjectSection(SolutionItems) = preProject
 		global.json = global.json
+		GlobalAssemblyInfo.cs = GlobalAssemblyInfo.cs
+		pack.cmd = pack.cmd
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Dsrv.KomServer.Vsnr", "src\Dsrv.KomServer.Vsnr\Dsrv.KomServer.Vsnr.xproj", "{E79EB457-2580-4876-A861-4C2F034E269D}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Dataline.Dsrv.KomServer.Vsnr", "src\Dataline.Dsrv.KomServer.Vsnr\Dataline.Dsrv.KomServer.Vsnr.xproj", "{E79EB457-2580-4876-A861-4C2F034E269D}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Dsrv.KomServer.Vsnr.Tests", "src\Dsrv.KomServer.Vsnr.Tests\Dsrv.KomServer.Vsnr.Tests.xproj", "{A33CC3A2-7004-44E0-A0CE-EB323C5A8CEB}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Dataline.Dsrv.KomServer.Vsnr.Tests", "src\Dataline.Dsrv.KomServer.Vsnr.Tests\Dataline.Dsrv.KomServer.Vsnr.Tests.xproj", "{A33CC3A2-7004-44E0-A0CE-EB323C5A8CEB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

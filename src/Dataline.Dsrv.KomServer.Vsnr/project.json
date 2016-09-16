@@ -1,0 +1,67 @@
+﻿{
+  "name": "Dataline.Dsrv.KomServer.Vsnr",
+  "version": "1.0.0-*",
+  "title": "DSRV-Versicherungsnummern-Abfrage",
+  "authors": [ "DATALINE GmbH & Co. KG" ],
+  "description": "Versicherungsnummern-Abfrage über den Kommunikationsserver der DSRV",
+  "copyright": "Copyright © 2015-2016 DATALINE GmbH & Co. KG",
+  "configurations": {
+    "Debug": {
+      "buildOptions": {
+        "define": [ "DEBUG" ]
+      }
+    },
+    "Release": {
+      "buildOptions": {
+        "debugType": "none",
+        "xmlDoc": true
+      }
+    }
+  },
+  "buildOptions": {
+    "compile": [ "../../GlobalAssemblyInfo.cs" ]
+  },
+  "packOptions": {
+    "summary": "DSRV-Versicherungsnummern-Abfrage",
+    "owners": [ "DATALINE GmbH & Co. KG" ],
+    "licenseUrl": "https://github.com/dataline-gmbh/ExtraStandard/blob/master/LICENSE.md",
+    "tags": [ "dsrv", "dsv", "drv", "vsnr", "versicherungsnummer" ],
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/dataline-gmbh/Dsrv.KomServer.Vsnr"
+    },
+    "files": {
+      "mappings": {
+        "/": "../../*.md"
+      }
+    }
+  },
+
+  "dependencies": {
+    "Dataline.Common.Constants": "1.2.36",
+    "Dataline.Entities": "2.0.219",
+    "Dataline.ExtraStandard.Compression": "0.4.5",
+    "Dataline.ExtraStandard.DrvKomServer.Extra14": "0.4.5",
+    "Dataline.ExtraStandard.DrvKomServer.Extra14.Dsv": "0.4.5",
+    "Dataline.ExtraStandard.Encryption": "0.4.5",
+    "Dataline.SocialInsurance.Germany.Messages.Mappings": "0.4.0-beta1-0007",
+    "Dataline.System": "1.2.41",
+    "NETStandard.Library": "1.6.0",
+    "Portable.BouncyCastle": "1.8.1.1"
+  },
+
+  "frameworks": {
+    "netstandard1.3": {
+      "imports": [ "portable-net45+win8+wp8+wpa81", "portable-dnxcore50+monoandroid10+monotouch10+net45+win+wp8+wpa81+xamarinios10" ],
+      "dependencies": {
+      }
+    },
+    "net45": {
+      "dependencies": {
+      },
+      "frameworkAssemblies": {
+        "System.Security": ""
+      }
+    }
+  }
+}
