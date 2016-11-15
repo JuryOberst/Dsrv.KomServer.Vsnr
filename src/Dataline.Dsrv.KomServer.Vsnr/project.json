@@ -39,12 +39,12 @@
 
   "dependencies": {
     "Dataline.Common.Constants": "1.2.36",
-    "Dataline.Entities": "2.0.219",
-    "Dataline.ExtraStandard.Compression": "0.4.5",
-    "Dataline.ExtraStandard.DrvKomServer.Extra14": "0.4.5",
-    "Dataline.ExtraStandard.DrvKomServer.Extra14.Dsv": "0.4.5",
-    "Dataline.ExtraStandard.Encryption": "0.4.5",
-    "Dataline.SocialInsurance.Germany.Messages.Mappings": "0.4.0-beta1-0007",
+    "Dataline.Entities": "2.0.262",
+    "Dataline.ExtraStandard.Compression": "0.4.10",
+    "Dataline.ExtraStandard.DrvKomServer.Extra14": "0.4.10",
+    "Dataline.ExtraStandard.DrvKomServer.Extra14.Dsv": "0.4.10",
+    "Dataline.ExtraStandard.Encryption": "0.4.10",
+    "Dataline.SocialInsurance.Germany.Messages.Mappings": "0.4.0-beta1-0014",
     "Dataline.System": "1.2.41",
     "NETStandard.Library": "1.6.0",
     "Portable.BouncyCastle": "1.8.1.1"

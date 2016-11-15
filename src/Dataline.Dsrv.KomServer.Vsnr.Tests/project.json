@@ -12,7 +12,7 @@
     "NETStandard.Library": "1.6.0",
     "xunit": "2.2.0-beta2-build3300",
     "Autofac": "4.1.0",
-    "Dataline.ExtraStandard.DrvKomServer.Validation.Extra14.Dsv": "0.4.5",
+    "Dataline.ExtraStandard.DrvKomServer.Validation.Extra14.Dsv": "0.4.10",
     "Dsrv.Kernpruefung.Deuev-1.8": "1.8.0.7",
     "Itsg.Ostc.Certificates": "0.1.10",
     "Microsoft.Extensions.Configuration.Binder": "1.0.0"
