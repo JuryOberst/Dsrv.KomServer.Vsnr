@@ -38,14 +38,14 @@
   },
 
   "dependencies": {
-    "Dataline.Common.Constants": "1.2.36",
-    "Dataline.Entities": "2.0.262",
+    "Dataline.Common.Constants": "1.2.39",
+    "Dataline.Entities": "2.0.312",
     "Dataline.ExtraStandard.Compression": "0.4.10",
     "Dataline.ExtraStandard.DrvKomServer.Extra14": "0.4.10",
     "Dataline.ExtraStandard.DrvKomServer.Extra14.Dsv": "0.4.10",
     "Dataline.ExtraStandard.Encryption": "0.4.10",
-    "Dataline.SocialInsurance.Germany.Messages.Mappings": "0.4.0-beta1-0014",
-    "Dataline.System": "1.2.41",
+    "Dataline.SocialInsurance.Germany.Messages.Mappings": "0.4.0-beta1-0018",
+    "Dataline.System": "1.2.44",
     "NETStandard.Library": "1.6.0",
     "Portable.BouncyCastle": "1.8.1.1"
   },
