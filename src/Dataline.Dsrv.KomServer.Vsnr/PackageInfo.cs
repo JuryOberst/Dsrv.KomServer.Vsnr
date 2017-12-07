@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright file="PackageInfo.cs" company="DATALINE GmbH &amp; Co. KG">
+// Copyright (c) DATALINE GmbH &amp; Co. KG. All rights reserved.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,31 +28,32 @@ namespace Dsrv.KomServer.Vsnr
             if (!IsError)
             {
                 var encoding = ExtraEncodingFactory.Dsrv.GetEncoding("I1");
-                var data = ((Base64CharSequenceType) ((DataType1) package.PackageBody.Items[0]).Item).Value;
+                var data = ((Base64CharSequenceType)((DataType1)package.PackageBody.Items[0]).Item).Value;
                 foreach (var plugin in package.PackagePlugIns.Any)
                 {
-                    var dataSource = plugin as DataSourceType;
-                    if (dataSource != null)
+                    switch (plugin)
                     {
-                        FileName = dataSource.DataContainer.name;
-                        if (dataSource.DataContainer.createdSpecified)
-                            FileCreated = dataSource.DataContainer.created;
-                        if (!string.IsNullOrEmpty(dataSource.DataContainer.encoding))
-                            encoding = ExtraEncodingFactory.Dsrv.GetEncoding(dataSource.DataContainer.encoding);
-                    }
-                    else
-                    {
-                        var dataTransforms = plugin as DataTransformsType;
-                        if (dataTransforms != null)
-                        {
+                        case DataSourceType dataSource:
+                            FileName = dataSource.DataContainer.name;
+                            if (dataSource.DataContainer.createdSpecified)
+                            {
+                                FileCreated = dataSource.DataContainer.created;
+                            }
+
+                            if (!string.IsNullOrEmpty(dataSource.DataContainer.encoding))
+                            {
+                                encoding = ExtraEncodingFactory.Dsrv.GetEncoding(dataSource.DataContainer.encoding);
+                            }
+
+                            break;
+                        case DataTransformsType dataTransforms:
                             data = dataTransformHandler.ReverseTransform(data, dataTransforms);
-                        }
-                        else
-                        {
+                            break;
+                        default:
                             throw new NotSupportedException();
-                        }
                     }
                 }
+
                 File = encoding.GetString(data, 0, data.Length);
                 FileData = data;
             }

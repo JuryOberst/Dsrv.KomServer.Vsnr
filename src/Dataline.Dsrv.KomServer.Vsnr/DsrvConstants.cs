@@ -1,4 +1,8 @@
-﻿#define USE_GKV_SCHEMA
+﻿// <copyright file="DsrvConstants.cs" company="DATALINE GmbH &amp; Co. KG">
+// Copyright (c) DATALINE GmbH &amp; Co. KG. All rights reserved.
+// </copyright>
+
+#define USE_GKV_SCHEMA
 
 namespace Dsrv.KomServer.Vsnr
 {
@@ -12,9 +16,9 @@ namespace Dsrv.KomServer.Vsnr
 
 #if USE_GKV_SCHEMA
         public const string ProcedureSend = "DUA";
-        
+
         public const string ProcedureQuery = "DeliveryServer";
-        
+
         public const string ProcedureAcknowledge = "DeliveryServer";
 #else
         public const string ProcedureSend = "http://www.extra-standard.pde/procedures/DEUEV";

@@ -1,22 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{146A79A4-3B15-4BE9-81E5-76181A43867B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BCAC145A-0EB0-4357-8ECE-7F4DBEFFB228}"
 	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
 		GlobalAssemblyInfo.cs = GlobalAssemblyInfo.cs
 		LICENSE.md = LICENSE.md
 		pack.cmd = pack.cmd
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Dataline.Dsrv.KomServer.Vsnr", "src\Dataline.Dsrv.KomServer.Vsnr\Dataline.Dsrv.KomServer.Vsnr.xproj", "{E79EB457-2580-4876-A861-4C2F034E269D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dataline.Dsrv.KomServer.Vsnr", "src\Dataline.Dsrv.KomServer.Vsnr\Dataline.Dsrv.KomServer.Vsnr.csproj", "{E79EB457-2580-4876-A861-4C2F034E269D}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Dataline.Dsrv.KomServer.Vsnr.Tests", "src\Dataline.Dsrv.KomServer.Vsnr.Tests\Dataline.Dsrv.KomServer.Vsnr.Tests.xproj", "{A33CC3A2-7004-44E0-A0CE-EB323C5A8CEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dataline.Dsrv.KomServer.Vsnr.Tests", "src\Dataline.Dsrv.KomServer.Vsnr.Tests\Dataline.Dsrv.KomServer.Vsnr.Tests.csproj", "{A33CC3A2-7004-44E0-A0CE-EB323C5A8CEB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,5 +38,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{E79EB457-2580-4876-A861-4C2F034E269D} = {146A79A4-3B15-4BE9-81E5-76181A43867B}
 		{A33CC3A2-7004-44E0-A0CE-EB323C5A8CEB} = {146A79A4-3B15-4BE9-81E5-76181A43867B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CFBECF3D-E81E-460E-9FA1-50A4824A4283}
 	EndGlobalSection
 EndGlobal

@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright file="RequestClient.cs" company="DATALINE GmbH &amp; Co. KG">
+// Copyright (c) DATALINE GmbH &amp; Co. KG. All rights reserved.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -39,7 +43,10 @@ namespace Dsrv.KomServer.Vsnr
         {
             var streamFactory = StreamFactory.NewInstance();
             using (var meldungen = Meldungen.LoadMeldungen())
+            {
                 streamFactory.Load(meldungen);
+            }
+
             return streamFactory;
         });
 
@@ -58,6 +65,8 @@ namespace Dsrv.KomServer.Vsnr
         private readonly IRequestMessageValidator _messageValidator;
 
         private readonly Lazy<HttpClient> _httpClient;
+
+        private bool _disposedValue; // Dient zur Erkennung redundanter Aufrufe.
 
         /// <summary>
         /// Initialisiert eine neue Instanz der <see cref="RequestClient"/> Klasse.
@@ -81,6 +90,14 @@ namespace Dsrv.KomServer.Vsnr
         }
 
         internal StreamFactory StreamFactory => _streamFactory.Value;
+
+        /// <summary>
+        /// Freigabe der Ressourcen nach dem Dispose-Muster
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+        }
 
         /// <summary>
         /// Führt einen Versand der Versicherungsnummernabfrage-Daten aus
@@ -144,11 +161,33 @@ namespace Dsrv.KomServer.Vsnr
             return DecodePackages(response.TransportBody?.Items?.Cast<PackageResponseType>());
         }
 
+        /// <summary>
+        /// Freigabe der Ressourcen nach dem Dispose-Muster
+        /// </summary>
+        /// <param name="disposing">Wirklich freigeben?</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    if (_httpClient.IsValueCreated)
+                    {
+                        _httpClient.Value.Dispose();
+                    }
+                }
+
+                _disposedValue = true;
+            }
+        }
+
         private static TransportResponseType GetResponse(byte[] responseData)
         {
             var responseDoc = XDocument.Load(new MemoryStream(responseData));
             if (responseDoc.Root == null)
+            {
                 throw new VsnrException(Encoding.UTF8.GetString(responseData, 0, responseData.Length));
+            }
 
             if (responseDoc.Root.Name.LocalName == "XMLError")
             {
@@ -168,6 +207,27 @@ namespace Dsrv.KomServer.Vsnr
             return response;
         }
 
+        private static byte[] XmlToBytes(XDocument document, Encoding encoding)
+        {
+            using (var output = new MemoryStream())
+            {
+                var writerSettings = new XmlWriterSettings()
+                {
+                    Encoding = encoding,
+                    CloseOutput = true,
+                    WriteEndDocumentOnClose = true,
+                    Indent = false,
+                };
+
+                using (var writer = XmlWriter.Create(output, writerSettings))
+                {
+                    document.Save(writer);
+                }
+
+                return output.ToArray();
+            }
+        }
+
         private async Task<byte[]> ExecuteRequest(CancellationToken ct, XDocument request)
         {
             var encoding = Encoding.GetEncoding("iso-8859-1");
@@ -179,7 +239,7 @@ namespace Dsrv.KomServer.Vsnr
                 Headers =
                 {
                     ContentType = MediaTypeHeaderValue.Parse($"text/xml; charset={encoding.WebName}"),
-                }
+                },
             };
 
             var requestUrl = _isTest ? DsrvConstants.RequestUrlTest : DsrvConstants.RequestUrlProd;
@@ -192,8 +252,8 @@ namespace Dsrv.KomServer.Vsnr
                 {
                     Data =
                     {
-                        {"content", await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false)}
-                    }
+                        { "content", await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false) },
+                    },
                 };
             }
 
@@ -202,34 +262,20 @@ namespace Dsrv.KomServer.Vsnr
             return responseData;
         }
 
-        private static byte[] XmlToBytes(XDocument document, Encoding encoding)
-        {
-            using (var output = new MemoryStream())
-            {
-                using (var writer = XmlWriter.Create(output, new XmlWriterSettings()
-                {
-                    Encoding = encoding,
-                    CloseOutput = true,
-                    WriteEndDocumentOnClose = true,
-                    Indent = false,
-                }))
-                {
-                    document.Save(writer);
-                }
-
-                return output.ToArray();
-            }
-        }
-
         private void Validate(string[] records)
         {
             if (_messageValidator == null)
+            {
                 return;
+            }
+
             var voszRecord = records[0];
             var dsvvRecords = records.Skip(2).Take(records.Length - 3).ToList();
             var errorMessages = _messageValidator.Validate(voszRecord, dsvvRecords);
             if (errorMessages.Count != 0)
+            {
                 throw new ValidationException(errorMessages);
+            }
         }
 
         private XDocument CreateDelivery(string requestId, DateTime requestTimestamp, int fileNumber, string data)
@@ -239,7 +285,7 @@ namespace Dsrv.KomServer.Vsnr
             var requestData = encoding.GetBytes(data);
 
             var dataName = $"{(_isTest ? 'T' : 'E')}DSV0{fileNumber:D6}";
-            var dataTransformsHelper = new ExtraDataTransformHandler(new[] {_compressionHandler}, new[] {_encryptionHandler});
+            var dataTransformsHelper = new ExtraDataTransformHandler(new[] { _compressionHandler }, new[] { _encryptionHandler });
             var transformResult = dataTransformsHelper.Transform(requestData, dataName, requestTimestamp, _compressionHandler.AlgorithmId, _encryptionHandler.AlgorithmId);
             var requestDataEncrypted = transformResult.Item1;
 
@@ -272,8 +318,8 @@ namespace Dsrv.KomServer.Vsnr
                         },
                         Procedure = DsrvConstants.ProcedureSend,
                         DataType = ExtraDataType.VSNRAnfrage,
-                        Scenario = ExtraScenario.RequestWithAcknowledgement
-                    }
+                        Scenario = ExtraScenario.RequestWithAcknowledgement,
+                    },
                 },
                 TransportPlugIns = new AnyPlugInContainerType()
                 {
@@ -296,8 +342,8 @@ namespace Dsrv.KomServer.Vsnr
                                 created = requestTimestamp.ToUniversalTime(),
                                 createdSpecified = true,
                                 encoding = encodingId,
-                                name = dataName
-                            }
+                                name = dataName,
+                            },
                         },
                         new ContactsType()
                         {
@@ -312,13 +358,13 @@ namespace Dsrv.KomServer.Vsnr
                                         new EndpointType()
                                         {
                                             type = EndpointTypeType.SMTP,
-                                            Value = _sender.Email
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                                            Value = _sender.Email,
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
                 },
                 TransportBody = new TransportRequestBodyType()
                 {
@@ -328,11 +374,11 @@ namespace Dsrv.KomServer.Vsnr
                         {
                             Item = new Base64CharSequenceType()
                             {
-                                Value = requestDataEncrypted
-                            }
-                        }
-                    }
-                }
+                                Value = requestDataEncrypted,
+                            },
+                        },
+                    },
+                },
             };
 
             var ns = new XmlSerializerNamespaces();
@@ -387,8 +433,8 @@ namespace Dsrv.KomServer.Vsnr
                         },
                         Procedure = DsrvConstants.ProcedureQuery,
                         DataType = ExtraStandard.ExtraDataType.DataRequest,
-                        Scenario = ExtraScenario.RequestWithResponse
-                    }
+                        Scenario = ExtraScenario.RequestWithResponse,
+                    },
                 },
                 TransportBody = new TransportRequestBodyType()
                 {
@@ -411,7 +457,7 @@ namespace Dsrv.KomServer.Vsnr
                                                 @event = EventNamesType.httpwwwextrastandarddeeventSendData,
                                                 Items = new object[]
                                                 {
-                                                    new OperandType() {Value = acceptResponseId}
+                                                    new OperandType() { Value = acceptResponseId },
                                                 },
                                                 ItemsElementName = new[]
                                                 {
@@ -423,19 +469,19 @@ namespace Dsrv.KomServer.Vsnr
                                                 property = ExtraStatusRequestPropertyName.Procedure,
                                                 Items = new object[]
                                                 {
-                                                    new OperandType() {Value = "DSV"}
+                                                    new OperandType() { Value = "DSV" },
                                                 },
                                                 ItemsElementName = new[]
                                                 {
                                                     ItemsChoiceType4.EQ,
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
                         },
-                    }
+                    },
                 },
             };
 
@@ -493,8 +539,8 @@ namespace Dsrv.KomServer.Vsnr
                         },
                         Procedure = DsrvConstants.ProcedureAcknowledge,
                         DataType = ExtraStandard.ExtraDataType.ConfirmationOfReceipt,
-                        Scenario = ExtraScenario.RequestWithAcknowledgement
-                    }
+                        Scenario = ExtraScenario.RequestWithAcknowledgement,
+                    },
                 },
                 TransportBody = new TransportRequestBodyType()
                 {
@@ -515,14 +561,14 @@ namespace Dsrv.KomServer.Vsnr
                                             Value = responseIds
                                                 .Select(x => new ExtraStandard.Extra14.ValueType()
                                                 {
-                                                    Value = x
-                                                }).ToArray()
-                                        }
-                                    }
-                                }
-                            }
+                                                    Value = x,
+                                                }).ToArray(),
+                                        },
+                                    },
+                                },
+                            },
                         },
-                    }
+                    },
                 },
             };
 
@@ -558,8 +604,8 @@ namespace Dsrv.KomServer.Vsnr
                 var vosz = new VOSZ()
                 {
                     VFMM = "AGTRV",
-                    BBNRAB = _sender.Betriebsnummer,
-                    BBNREP = DsrvConstants.Betriebsnummer,
+                    ABSN = _sender.Betriebsnummer,
+                    EPNR = DsrvConstants.Betriebsnummer,
                     ED = LocalDateTime.FromDateTime(creationTimestamp).Date,
                     DTNR = fileNumber,
                     NAAB = _sender.Name1,
@@ -569,10 +615,10 @@ namespace Dsrv.KomServer.Vsnr
                 var dsko = new DSKO04()
                 {
                     VF = "DEUEV",
-                    BBNRAB = _sender.Betriebsnummer,
-                    BBNREP = DsrvConstants.Betriebsnummer,
+                    ABSN = _sender.Betriebsnummer,
+                    EPNR = DsrvConstants.Betriebsnummer,
                     ED = creationTimestamp,
-                    BBNRER = _company.Betriebsnummer,
+                    ABSNER = _company.Betriebsnummer,
                     PRODID = registration.ProductId,
                     MODID = registration.ModificationId,
                     NAME1 = _company.Name1,
@@ -594,8 +640,8 @@ namespace Dsrv.KomServer.Vsnr
 
                     var dsvv = new DSVV01()
                     {
-                        BBNRAB = _sender.Betriebsnummer,
-                        BBNREP = DsrvConstants.Betriebsnummer,
+                        ABSN = _sender.Betriebsnummer,
+                        EPNR = DsrvConstants.Betriebsnummer,
                         ED = creationTimestamp,
                         KENNZRM = DSVV01Status.Grundstellung,
                         BBNRVU = _company.Betriebsnummer,
@@ -618,7 +664,7 @@ namespace Dsrv.KomServer.Vsnr
                         {
                             PLZ = person.PLZ,
                             ORT = person.Ort,
-                        }
+                        },
                     };
                     writer.Write(dsvv);
                 }
@@ -626,8 +672,8 @@ namespace Dsrv.KomServer.Vsnr
                 var ncsz = new NCSZ()
                 {
                     VFMM = "AGTRV",
-                    BBNRAB = _sender.Betriebsnummer,
-                    BBNREP = DsrvConstants.Betriebsnummer,
+                    ABSN = _sender.Betriebsnummer,
+                    EPNR = DsrvConstants.Betriebsnummer,
                     ED = LocalDateTime.FromDateTime(creationTimestamp).Date,
                     DTNR = fileNumber,
                     ZLSZ = personCount + 1,
@@ -646,41 +692,13 @@ namespace Dsrv.KomServer.Vsnr
         private IReadOnlyCollection<PackageInfo> DecodePackages(IEnumerable<PackageResponseType> packageResponses)
         {
             if (packageResponses == null)
+            {
                 return null;
+            }
 
-            var dataTransformsHelper = new ExtraDataTransformHandler(new[] {_compressionHandler}, new[] {_encryptionHandler});
+            var dataTransformsHelper = new ExtraDataTransformHandler(new[] { _compressionHandler }, new[] { _encryptionHandler });
 
             return packageResponses.Select(x => new PackageInfo(x, dataTransformsHelper, this)).ToList();
         }
-
-        #region IDisposable Support
-        private bool _disposedValue; // Dient zur Erkennung redundanter Aufrufe.
-
-        /// <summary>
-        /// Freigabe der Ressourcen nach dem Dispose-Muster
-        /// </summary>
-        /// <param name="disposing">Wirklich freigeben?</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposedValue)
-            {
-                if (disposing)
-                {
-                    if (_httpClient.IsValueCreated)
-                        _httpClient.Value.Dispose();
-                }
-
-                _disposedValue = true;
-            }
-        }
-
-        /// <summary>
-        /// Freigabe der Ressourcen nach dem Dispose-Muster
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-        #endregion
     }
 }

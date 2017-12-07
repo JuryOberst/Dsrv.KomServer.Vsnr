@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿// <copyright file="VsnrFile.cs" company="DATALINE GmbH &amp; Co. KG">
+// Copyright (c) DATALINE GmbH &amp; Co. KG. All rights reserved.
+// </copyright>
+
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -69,6 +73,7 @@ namespace Dsrv.KomServer.Vsnr
                 dsvv.Add((DSVV01)record);
                 record = reader.Read();
             }
+
             var nachlaufSender = (NCSZ)record;
             var nachlaufDsrv = (NCSZ)reader.Read();
             return new VsnrFile(vorlaufDsrv, vorlaufSender, dsvv, nachlaufSender, nachlaufDsrv);

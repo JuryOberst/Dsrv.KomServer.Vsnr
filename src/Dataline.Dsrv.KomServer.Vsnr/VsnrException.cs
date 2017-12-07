@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright file="VsnrException.cs" company="DATALINE GmbH &amp; Co. KG">
+// Copyright (c) DATALINE GmbH &amp; Co. KG. All rights reserved.
+// </copyright>
+
+using System;
 
 namespace Dsrv.KomServer.Vsnr
 {
@@ -8,26 +12,28 @@ namespace Dsrv.KomServer.Vsnr
     public class VsnrException : Exception
     {
         /// <summary>
-        /// Initialisiert eine neue <see cref="VsnrException"/> Klasse.
+        /// Initialisiert eine neue Instanz der <see cref="VsnrException"/> Klasse.
         /// </summary>
         public VsnrException()
         {
         }
 
         /// <summary>
-        /// Initialisiert eine neue <see cref="VsnrException"/> Klasse.
+        /// Initialisiert eine neue Instanz der <see cref="VsnrException"/> Klasse.
         /// </summary>
         /// <param name="message">Die Fehlermeldung</param>
-        public VsnrException(string message) : base(message)
+        public VsnrException(string message)
+            : base(message)
         {
         }
 
         /// <summary>
-        /// Initialisiert eine neue <see cref="VsnrException"/> Klasse.
+        /// Initialisiert eine neue Instanz der <see cref="VsnrException"/> Klasse.
         /// </summary>
         /// <param name="message">Die Fehlermeldung</param>
         /// <param name="inner">Die innere Exception</param>
-        public VsnrException(string message, Exception inner) : base(message, inner)
+        public VsnrException(string message, Exception inner)
+            : base(message, inner)
         {
         }
     }

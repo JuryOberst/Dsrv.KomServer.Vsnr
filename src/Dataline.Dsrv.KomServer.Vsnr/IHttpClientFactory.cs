@@ -1,4 +1,7 @@
-﻿using System;
+﻿// <copyright file="IHttpClientFactory.cs" company="DATALINE GmbH &amp; Co. KG">
+// Copyright (c) DATALINE GmbH &amp; Co. KG. All rights reserved.
+// </copyright>
+
 using System.Net.Http;
 
 namespace Dsrv.KomServer.Vsnr

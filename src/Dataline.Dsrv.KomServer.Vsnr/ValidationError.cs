@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright file="ValidationError.cs" company="DATALINE GmbH &amp; Co. KG">
+// Copyright (c) DATALINE GmbH &amp; Co. KG. All rights reserved.
+// </copyright>
+
+using System;
 using System.Text;
 
 using SocialInsurance.Germany.Messages.Pocos;
@@ -10,7 +14,7 @@ namespace Dsrv.KomServer.Vsnr
     /// </summary>
     public class ValidationError
     {
-        private static readonly char[] _whitespace = {' '};
+        private static readonly char[] _whitespace = { ' ' };
 
         /// <summary>
         /// Initialisiert eine neue Instanz der <see cref="ValidationError"/> Klasse.
@@ -68,19 +72,22 @@ namespace Dsrv.KomServer.Vsnr
         /// </summary>
         public bool IsError => Code != "NCSZH10";
 
-        private static Tuple<string, string> GetCodeAndMessage(string fe)
-        {
-            var parts = fe.Split(_whitespace, 2);
-            return Tuple.Create(parts[0], parts[1]);
-        }
-
         /// <inheritdoc />
         public override string ToString()
         {
             var result = new StringBuilder($"{Code}: {Message}");
             if (!string.IsNullOrEmpty(Description))
+            {
                 result.AppendLine().Append(Description);
+            }
+
             return result.ToString();
+        }
+
+        private static Tuple<string, string> GetCodeAndMessage(string fe)
+        {
+            var parts = fe.Split(_whitespace, 2);
+            return Tuple.Create(parts[0], parts[1]);
         }
     }
 }

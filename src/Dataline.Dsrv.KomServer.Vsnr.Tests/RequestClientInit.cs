@@ -28,7 +28,7 @@ namespace Dsrv.KomServer.Vsnr.Tests
 
         public async Task InitializeAsync()
         {
-            ReceiverCertificates = await ReceiverCertificates.Load(CustomerData.SenderCertificate.IsSha256()).ConfigureAwait(false);
+            ReceiverCertificates = await ReceiverCertificates.Load().ConfigureAwait(false);
 
             var cb = new ContainerBuilder();
 
@@ -52,7 +52,7 @@ namespace Dsrv.KomServer.Vsnr.Tests
                       var receiverCert = ReceiverCertificates.Certificates[CustomerData.DsrvBn];
                       var senderPkcsStore = new Pkcs12Store(new MemoryStream(CustomerData.SenderCertificate.Export(X509ContentType.Pkcs12)), new char[0]);
                       var receiverCertBc = new Org.BouncyCastle.X509.X509CertificateParser().ReadCertificate(receiverCert.RawData);
-                      var encryption = new Pkcs7EncryptionHandler(senderPkcsStore, receiverCertBc);
+                      var encryption = new BouncyCastlePkcs7EncryptionHandler(senderPkcsStore, receiverCertBc);
                       return encryption;
                   });
 
@@ -61,7 +61,7 @@ namespace Dsrv.KomServer.Vsnr.Tests
 
         public Task DisposeAsync()
         {
-            Container.Dispose();
+            Container?.Dispose();
             return Task.FromResult(0);
         }
     }
