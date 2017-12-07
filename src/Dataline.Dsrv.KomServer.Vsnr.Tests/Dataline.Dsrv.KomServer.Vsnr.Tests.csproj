@@ -27,7 +27,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
     <PackageReference Include="Portable.BouncyCastle" Version="1.8.1.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="Autofac" Version="4.6.2" />
     <PackageReference Include="Dataline.ExtraStandard.DrvKomServer.Validation.Extra14.Dsv" Version="1.0.2" />
@@ -40,10 +40,6 @@
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
