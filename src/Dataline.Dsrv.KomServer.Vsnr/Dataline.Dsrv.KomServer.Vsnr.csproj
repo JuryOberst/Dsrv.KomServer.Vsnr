@@ -25,7 +25,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\GlobalAssemblyInfo.cs" Exclude="bin\**;obj\**;**\*.xproj;packages\**" />
+    <Compile Include="..\..\GlobalAssemblyInfo.cs" Exclude="bin\**;obj\**;**\*.xproj;packages\**" Link="Properties\GlobalAssemblyInfo.cs" />
     <None Include="..\..\*.md">
       <PackagePath>/</PackagePath>
       <Pack>true</Pack>
