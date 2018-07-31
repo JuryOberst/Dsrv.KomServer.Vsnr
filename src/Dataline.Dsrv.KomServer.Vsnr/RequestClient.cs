@@ -662,8 +662,9 @@ namespace Dsrv.KomServer.Vsnr
                         },
                         DBAN = new DBAN()
                         {
+                            LDKZ = person.LandKennzeichen,
                             PLZ = person.PLZ,
-                            ORT = person.Ort,
+                            ORT = person.Ort
                         },
                     };
                     writer.Write(dsvv);
