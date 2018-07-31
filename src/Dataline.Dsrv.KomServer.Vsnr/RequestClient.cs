@@ -664,7 +664,8 @@ namespace Dsrv.KomServer.Vsnr
                         {
                             LDKZ = person.LandKennzeichen,
                             PLZ = person.PLZ,
-                            ORT = person.Ort
+                            ORT = person.Ort,
+                            STR = person.Strasse
                         },
                     };
                     writer.Write(dsvv);
