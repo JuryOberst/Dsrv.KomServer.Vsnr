@@ -67,4 +67,15 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\..\Packaging\Dataline.Dsrv.KomServer.Vsnr.targets" Link="build\native\Dataline.Dsrv.KomServer.Vsnr.targets">
+      <PackagePath>build/native/</PackagePath>
+      <Pack>true</Pack>
+    </None>
+    <None Include="..\..\Packaging\_._" Link="lib\native\_._">
+      <PackagePath>lib/native/</PackagePath>
+      <Pack>true</Pack>
+    </None>
+  </ItemGroup>
+
 </Project>
