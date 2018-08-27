@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Description>Versicherungsnummern-Abfrage über den Kommunikationsserver der DSRV</Description>
@@ -6,7 +6,7 @@
     <AssemblyTitle>DSRV-Versicherungsnummern-Abfrage</AssemblyTitle>
     <VersionPrefix>0.2.0</VersionPrefix>
     <Authors>DATALINE GmbH &amp; Co. KG</Authors>
-    <TargetFrameworks>netstandard1.3;net45;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net452</TargetFrameworks>
     <AssemblyName>Dataline.Dsrv.KomServer.Vsnr</AssemblyName>
     <PackageId>Dataline.Dsrv.KomServer.Vsnr</PackageId>
     <PackageTags>dsrv;dsv;drv;vsnr;versicherungsnummer</PackageTags>
@@ -37,14 +37,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dataline.Common.Constants" Version="1.2.42" />
-    <PackageReference Include="Dataline.Entities" Version="2.0.359" />
-    <PackageReference Include="Dataline.ExtraStandard.Compression" Version="1.0.2" />
-    <PackageReference Include="Dataline.ExtraStandard.DrvKomServer.Extra14" Version="1.0.2" />
-    <PackageReference Include="Dataline.ExtraStandard.DrvKomServer.Extra14.Dsv" Version="1.0.2" />
-    <PackageReference Include="Dataline.ExtraStandard.Encryption" Version="1.0.2" />
-    <PackageReference Include="Dataline.SocialInsurance.Germany.Messages.Mappings" Version="0.4.1" />
-    <PackageReference Include="Dataline.System" Version="1.2.54" />
+    <PackageReference Include="Dataline.Common.Constants" Version="1.2.51" />
+    <PackageReference Include="Dataline.Entities" Version="2.0.399" />
+    <PackageReference Include="Dataline.ExtraStandard.Compression" Version="1.0.5" />
+    <PackageReference Include="Dataline.ExtraStandard.DrvKomServer.Extra14" Version="1.0.5" />
+    <PackageReference Include="Dataline.ExtraStandard.DrvKomServer.Extra14.Dsv" Version="1.0.5" />
+    <PackageReference Include="Dataline.ExtraStandard.Encryption" Version="1.0.5" />
+    <PackageReference Include="Dataline.SocialInsurance.Germany.Messages.Mappings" Version="0.5.2" />
+    <PackageReference Include="Dataline.System" Version="1.2.56" />
     <PackageReference Include="JetBrains.Annotations" Version="11.1.0" />
     <PackageReference Include="Portable.BouncyCastle" Version="1.8.1.1">
       <PrivateAssets>All</PrivateAssets>
@@ -52,6 +52,7 @@
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="System.Net.Http" Version="4.3.3" />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
